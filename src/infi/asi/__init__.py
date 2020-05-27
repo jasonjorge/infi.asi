@@ -5,6 +5,7 @@ from infi.instruct import *
 from infi.pyutils.decorators import wraps
 from .errors import AsiException, AsiCheckConditionError, AsiInternalError
 from .sense import *
+import platform
 
 try:
     from gevent import sleep as _gevent_friendly_sleep
@@ -177,9 +178,11 @@ class CommandExecuterAdapter(CommandExecuter):
     def wait(self):
         return self.call_wrapper(self.executer.wait)
 
+
 def get_platform_name():
-    from infi.os_info import get_platform_string
-    return get_platform_string().split('-')[0]
+    return platform.system().lower()
+    # from infi.os_info import get_platform_string
+    # return get_platform_string().split('-')[0]
 
 def create_platform_command_executer(*args, **kwargs):
     platform_name = get_platform_name()
